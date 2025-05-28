@@ -1,0 +1,7 @@
+# This is a simulated pubspec.lock generated manually
+packages:
+  flutter:
+    dependency: "direct main"
+    description: flutter
+    source: sdk
+    version: 3.13.0
