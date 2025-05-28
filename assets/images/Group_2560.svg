@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="245" height="157.481" viewBox="0 0 245 157.481">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_1630" data-name="Rectangle 1630" width="80.543" height="101.418" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Group_2560" data-name="Group 2560" transform="translate(-93 -387)">
+    <text id="Retail_Connect" data-name="Retail Connect" transform="translate(93 533.481)" font-size="35" font-family="Onest-SemiBold, Onest" font-weight="600"><tspan x="0" y="0">Retail Connect</tspan></text>
+    <g id="Group_2347" data-name="Group 2347" transform="translate(175 387)">
+      <g id="Group_2346" data-name="Group 2346" clip-path="url(#clip-path)">
+        <path id="Path_5178" data-name="Path 5178" d="M46.827,0a9.591,9.591,0,1,1-9.59,9.59A9.593,9.593,0,0,1,46.827,0" transform="translate(-20.153)" fill="#425ef8"/>
+        <path id="Path_5179" data-name="Path 5179" d="M30.107,68.331A8.022,8.022,0,0,0,22.1,76.337v2.44s-1.827-20.636,10.59-20.636H52.3A13,13,0,0,1,65.258,71.1v7.422H55.068V76.337a8.031,8.031,0,0,0-8.007-8.006Z" transform="translate(-11.91 -31.467)" fill="#425ef8"/>
+        <path id="Path_5180" data-name="Path 5180" d="M53.348,91.109v7.407A13.009,13.009,0,0,1,40.39,111.49H12.959A13,13,0,0,1,0,98.516V71.1A12.986,12.986,0,0,1,12.959,58.141h7.82c-12.417,0-10.59,20.636-10.59,20.636v14.5A8.035,8.035,0,0,0,18.2,101.3H35.152a8.044,8.044,0,0,0,8.007-8.021V91.109Z" transform="translate(0 -31.467)" fill="#657dff"/>
+        <path id="Path_5181" data-name="Path 5181" d="M143.34,55.75a9.591,9.591,0,1,0,9.59,9.59,9.593,9.593,0,0,0-9.59-9.59" transform="translate(-72.387 -30.173)" fill="#2bb673"/>
+        <path id="Path_5182" data-name="Path 5182" d="M87.7,114.966a8.022,8.022,0,0,1,8.007,8.006v2.441s1.827-20.637-10.59-20.637H65.5a13,13,0,0,0-12.959,12.958v7.422H62.734v-2.184a8.031,8.031,0,0,1,8.007-8.006Z" transform="translate(-28.438 -56.707)" fill="#208956"/>
+        <path id="Path_5183" data-name="Path 5183" d="M52.545,137.744v7.407A13.009,13.009,0,0,0,65.5,158.125h27.43a13,13,0,0,0,12.959-12.974V117.734a12.986,12.986,0,0,0-12.959-12.958h-7.82c12.417,0,10.59,20.637,10.59,20.637v14.5a8.035,8.035,0,0,1-8.007,8.021H70.742a8.044,8.044,0,0,1-8.007-8.021v-2.169Z" transform="translate(-28.438 -56.707)" fill="#2bb673"/>
+      </g>
+    </g>
+  </g>
+</svg>

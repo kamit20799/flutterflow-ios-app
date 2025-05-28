@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="245" height="146.074" viewBox="0 0 245 146.074">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_1630" data-name="Rectangle 1630" width="73.543" height="92.603" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <g id="Group_2479" data-name="Group 2479" transform="translate(-93 -391.408)">
+    <text id="Retail_Connect" data-name="Retail Connect" transform="translate(93 526.481)" fill="#fff" font-size="35" font-family="Onest-SemiBold, Onest" font-weight="600"><tspan x="0" y="0">Retail Connect</tspan></text>
+    <g id="Group_2478" data-name="Group 2478" transform="translate(178 391.408)">
+      <g id="Group_2346" data-name="Group 2346" clip-path="url(#clip-path)">
+        <path id="Path_5178" data-name="Path 5178" d="M45.994,0a8.757,8.757,0,1,1-8.757,8.757A8.759,8.759,0,0,1,45.994,0" transform="translate(-21.638)" fill="#fff"/>
+        <path id="Union_2" data-name="Union 2" d="M11.833,48.712A11.869,11.869,0,0,1,0,36.866V11.832A11.857,11.857,0,0,1,11.833,0H36.879A11.865,11.865,0,0,1,48.711,11.832v6.776h-9.3V16.615A7.333,7.333,0,0,0,32.1,9.3H16.615A7.324,7.324,0,0,0,9.3,16.615v2.228s-.086-.967-.086-2.463c0,1.5.086,2.463.086,2.463v13.24a7.336,7.336,0,0,0,7.311,7.324H32.1a7.345,7.345,0,0,0,7.311-7.324V30.1h9.3v6.763A11.878,11.878,0,0,1,36.879,48.712Z" transform="translate(0 24.355)" fill="#fff" stroke="rgba(0,0,0,0)" stroke-width="1"/>
+        <path id="Path_5181" data-name="Path 5181" d="M142.506,55.75a8.757,8.757,0,1,0,8.757,8.757,8.759,8.759,0,0,0-8.757-8.757" transform="translate(-77.721 -32.396)" fill="#fff"/>
+        <path id="Union_1" data-name="Union 1" d="M11.832,48.712A11.878,11.878,0,0,1,0,36.866V30.1H9.3v1.98a7.344,7.344,0,0,0,7.311,7.324H32.1a7.336,7.336,0,0,0,7.311-7.324V18.843s.086-.967.086-2.463c0,1.5-.086,2.463-.086,2.463V16.615A7.324,7.324,0,0,0,32.1,9.3H16.615A7.332,7.332,0,0,0,9.3,16.615v1.994H0V11.832A11.865,11.865,0,0,1,11.832,0H36.878A11.857,11.857,0,0,1,48.711,11.832V36.866A11.869,11.869,0,0,1,36.878,48.712Z" transform="translate(22.012 43.891)" fill="#fff" stroke="rgba(0,0,0,0)" stroke-width="1"/>
+      </g>
+    </g>
+  </g>
+</svg>

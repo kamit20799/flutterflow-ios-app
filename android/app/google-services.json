@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "772902507394",
+    "project_id": "retail-connectv1-gire1i",
+    "storage_bucket": "retail-connectv1-gire1i.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:772902507394:android:51ba0b76d8662db0f9f59b",
+        "android_client_info": {
+          "package_name": "com.mycompany.retailconnect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJ_S08iGVdI_eWiLHjTMC_Tk8ja4cYvNI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
