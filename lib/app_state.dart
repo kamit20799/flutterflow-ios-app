@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'flutter_flow/flutter_flow_util.dart';
+import 'dart:convert';
 
 class FFAppState extends ChangeNotifier {
   static FFAppState _instance = FFAppState._internal();
@@ -123,6 +125,42 @@ class FFAppState extends ChangeNotifier {
   int get vendorStoreId => _vendorStoreId;
   set vendorStoreId(int value) {
     _vendorStoreId = value;
+  }
+
+  dynamic _selectedProductAttributes = jsonDecode('{}');
+  dynamic get selectedProductAttributes => _selectedProductAttributes;
+  set selectedProductAttributes(dynamic value) {
+    _selectedProductAttributes = value;
+  }
+
+  dynamic _selectedAttributesKeys = jsonDecode('[]');
+  dynamic get selectedAttributesKeys => _selectedAttributesKeys;
+  set selectedAttributesKeys(dynamic value) {
+    _selectedAttributesKeys = value;
+  }
+
+  dynamic _selectedAttributesValues = jsonDecode('[]');
+  dynamic get selectedAttributesValues => _selectedAttributesValues;
+  set selectedAttributesValues(dynamic value) {
+    _selectedAttributesValues = value;
+  }
+
+  int _productVariationId = 0;
+  int get productVariationId => _productVariationId;
+  set productVariationId(int value) {
+    _productVariationId = value;
+  }
+
+  String _productVariationPrice = '';
+  String get productVariationPrice => _productVariationPrice;
+  set productVariationPrice(String value) {
+    _productVariationPrice = value;
+  }
+
+  String _productVariationImage = '';
+  String get productVariationImage => _productVariationImage;
+  set productVariationImage(String value) {
+    _productVariationImage = value;
   }
 }
 

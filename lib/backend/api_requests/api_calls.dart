@@ -815,6 +815,7 @@ class GetCartItemsAPICall {
 class GetOrdersAPICall {
   static Future<ApiCallResponse> call({
     String? authToken,
+    int? storeId,
   }) async {
     authToken ??= '';
 
@@ -825,7 +826,9 @@ class GetOrdersAPICall {
       headers: {
         'Authorization': 'Bearer ${authToken}',
       },
-      params: {},
+      params: {
+        'store_id': storeId,
+      },
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,
@@ -840,6 +843,16 @@ class GetOrdersAPICall {
         r'''$.data''',
         true,
       ) as List?;
+  static int? outstandingAmont(dynamic response) =>
+      castToType<int>(getJsonField(
+        response,
+        r'''$.data[0].total_outstanding''',
+      ));
+  static String? overallpaidAmount(dynamic response) =>
+      castToType<String>(getJsonField(
+        response,
+        r'''$.data[0].overall_paid''',
+      ));
 }
 
 class RemoveCartProductAPICall {
@@ -956,6 +969,74 @@ class GetAllVendorsAPICall {
           .map((x) => castToType<int>(x))
           .withoutNulls
           .toList();
+}
+
+class GetProductIdCall {
+  static Future<ApiCallResponse> call({
+    int? productId,
+    List<String>? attributesList,
+  }) async {
+    final attributes = _serializeList(attributesList);
+
+    final ffApiRequestBody = '''
+{
+  "product_id": ${productId},
+  "attributes": ${attributes}
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'Get Product id',
+      apiUrl: 'https://retailersconnect.com/api/v1/ecommerce/getproductid',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static int? variationid(dynamic response) => castToType<int>(getJsonField(
+        response,
+        r'''$.variation_id''',
+      ));
+  static String? productVariationPrice(dynamic response) =>
+      castToType<String>(getJsonField(
+        response,
+        r'''$.product_price''',
+      ));
+}
+
+class LedgerReportCall {
+  static Future<ApiCallResponse> call({
+    String? authToken = '',
+  }) async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'Ledger Report',
+      apiUrl: 'https://retailersconnect.com/api/v1/ecommerce/customerBillData',
+      callType: ApiCallType.GET,
+      headers: {
+        'Authorization': 'Bearer ${authToken}',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static List? customerBildata(dynamic response) => getJsonField(
+        response,
+        r'''$.data''',
+        true,
+      ) as List?;
 }
 
 class ApiPagingParams {

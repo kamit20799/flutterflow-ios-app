@@ -63,3 +63,73 @@ String formatDateToReadable(String dateTime) {
   DateTime parsedDate = DateTime.parse(datePart);
   return DateFormat('dd MMMM yyyy').format(parsedDate); // Return formatted date
 }
+
+Color? changeBackgroundDynamically(dynamic status) {
+  // generate a function if status value is pending then color will be orange and if completed than green else light blue
+  if (status == 'pending' || status == 'Pending') {
+    return Colors.orange; // Return orange for pending status
+  } else if (status == 'completed') {
+    return Colors.green; // Return green for completed status
+  } else if (status == 'canceled' || status == 'Canceled') {
+    return Colors.red; // Return red for canceled status
+  } else {
+    return Colors.lightBlue; // Return light blue for any other status
+  }
+}
+
+String? roundTotalAmount(dynamic subtotal) {
+  // Generate a function to round off the price 3599.9700000000003 and concat ₹ before the oriec
+  if (subtotal is double) {
+    // Round off the subtotal to two decimal places
+    double roundedAmount = double.parse(subtotal.toStringAsFixed(2));
+    return '₹$roundedAmount'; // Concatenate ₹ before the rounded amount
+  }
+  return null; // Return null if subtotal is not a double
+}
+
+String areAllKeysPresent(
+  List<String> requiredKeys,
+  List<String> selectedAttributes,
+) {
+  if (selectedAttributes.isEmpty) {
+    return 'false';
+  }
+
+  for (final key in requiredKeys) {
+    if (!selectedAttributes.contains(key)) {
+      return 'false';
+    }
+  }
+  return 'true';
+}
+
+String? getSelectedAttributeKeys(List<String> attributes) {
+  // Generate a function to get the keys from list example {"Color":"Red","Storage":"128GB","Model":"2012"} we only need keys
+  String? getSelectedAttributeKeys(Map<String, dynamic> attributes) {
+    // Generate a function to get the keys from the provided map
+    if (attributes.isEmpty) {
+      return null; // Return null if the map is empty
+    }
+    return attributes.keys.join(', '); // Join keys with a comma and return
+  }
+}
+
+String? productPrice(
+  String? updatedPrice,
+  String? originalPrice,
+) {
+  if (updatedPrice != null && updatedPrice.trim().isNotEmpty) {
+    return updatedPrice;
+  }
+  return originalPrice;
+}
+
+String productImage(
+  String? updatedImage,
+  String? previousImage,
+) {
+  // Return updatedImage if it's not null and not empty, else return previousImage
+  return (updatedImage != null && updatedImage.isNotEmpty)
+      ? updatedImage
+      : (previousImage ?? '');
+}

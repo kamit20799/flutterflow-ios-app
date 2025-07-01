@@ -32,6 +32,26 @@ class ProductDetailModel extends FlutterFlowModel<ProductDetailWidget> {
   ApiCallResponse? updateCartResponse;
   // Stores action output result for [Backend Call - API (Get Cart Items API)] action in Button widget.
   ApiCallResponse? apiResulteac;
+  // Stores action output result for [Backend Call - API (Get Product id)] action in Button widget.
+  ApiCallResponse? getProductidResponse;
+  // Stores action output result for [Backend Call - API (Add to Cart)] action in Button widget.
+  ApiCallResponse? simpleAddtoCartResponse;
+  // Stores action output result for [Backend Call - API (Get Cart Items API)] action in Button widget.
+  ApiCallResponse? simpleGetCartitemsResponse;
+  // Stores action output result for [Backend Call - API (Update Cart API)] action in Button widget.
+  ApiCallResponse? simpleUpdateCartResponse;
+  // Stores action output result for [Backend Call - API (Get Cart Items API)] action in Button widget.
+  ApiCallResponse? simpleUpdateGetCartitemsResponse;
+  // Stores action output result for [Backend Call - API (Get Product id)] action in Button widget.
+  ApiCallResponse? getProductIdResponse;
+  // Stores action output result for [Backend Call - API (Add to Cart)] action in Button widget.
+  ApiCallResponse? addTocartResponse;
+  // Stores action output result for [Backend Call - API (Get Cart Items API)] action in Button widget.
+  ApiCallResponse? getCartItemResponse;
+  // Stores action output result for [Backend Call - API (Update Cart API)] action in Button widget.
+  ApiCallResponse? cartUpdateResponse;
+  // Stores action output result for [Backend Call - API (Get Cart Items API)] action in Button widget.
+  ApiCallResponse? apiResultkcGetCart;
 
   @override
   void initState(BuildContext context) {}

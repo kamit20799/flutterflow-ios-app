@@ -260,6 +260,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: SettingPageWidget.routeName,
           path: SettingPageWidget.routePath,
           builder: (context, params) => SettingPageWidget(),
+        ),
+        FFRoute(
+          name: LedgerCopyWidget.routeName,
+          path: LedgerCopyWidget.routePath,
+          builder: (context, params) => LedgerCopyWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

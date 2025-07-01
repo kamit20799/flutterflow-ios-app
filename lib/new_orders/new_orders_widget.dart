@@ -4,18 +4,14 @@ import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
-import 'dart:ui';
 import '/index.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:octo_image/octo_image.dart';
 import 'package:provider/provider.dart';
 import 'new_orders_model.dart';
 export 'new_orders_model.dart';
@@ -107,18 +103,6 @@ class _NewOrdersWidgetState extends State<NewOrdersWidget> {
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  FlutterFlowIconButton(
-                    borderRadius: 20.0,
-                    buttonSize: 40.0,
-                    icon: Icon(
-                      Icons.search_rounded,
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      size: 24.0,
-                    ),
-                    onPressed: () {
-                      print('IconButton pressed ...');
-                    },
-                  ),
                   Padding(
                     padding:
                         EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 24.0, 0.0),
@@ -344,7 +328,7 @@ class _NewOrdersWidgetState extends State<NewOrdersWidget> {
                                           page: nextPageMarker.nextPageNumber *
                                                   1 +
                                               1,
-                                          storeId: FFAppState().vendorStoreId,
+                                          storeId: 13,
                                         ),
                                       ),
                                       padding: EdgeInsets.zero,
@@ -543,14 +527,10 @@ class _NewOrdersWidgetState extends State<NewOrdersWidget> {
                                                                         0.0,
                                                                         12.0),
                                                             child: Text(
-                                                              valueOrDefault<
-                                                                  String>(
-                                                                getJsonField(
-                                                                  eachProductItem,
-                                                                  r'''$.price_formatted''',
-                                                                )?.toString(),
-                                                                '\$ 37,999',
-                                                              ),
+                                                              '₹${getJsonField(
+                                                                eachProductItem,
+                                                                r'''$.price_formatted''',
+                                                              ).toString()}',
                                                               style: FlutterFlowTheme
                                                                       .of(context)
                                                                   .titleMedium
@@ -589,9 +569,7 @@ class _NewOrdersWidgetState extends State<NewOrdersWidget> {
                                     decoration: BoxDecoration(),
                                     child: FutureBuilder<ApiCallResponse>(
                                       future: GetProductsCall.call(
-                                        page:
-                                            nextPageMarker.nextPageNumber * 1 +
-                                                1,
+                                        page: 1,
                                         storeId: FFAppState().vendorStoreId,
                                       ),
                                       builder: (context, snapshot) {
@@ -806,14 +784,10 @@ class _NewOrdersWidgetState extends State<NewOrdersWidget> {
                                                                             0.0,
                                                                             12.0),
                                                                     child: Text(
-                                                                      valueOrDefault<
-                                                                          String>(
-                                                                        getJsonField(
-                                                                          eachProductItem,
-                                                                          r'''$.price_formatted''',
-                                                                        )?.toString(),
-                                                                        '\$ 37,999',
-                                                                      ),
+                                                                      '₹${getJsonField(
+                                                                        eachProductItem,
+                                                                        r'''$.price_formatted''',
+                                                                      ).toString()}',
                                                                       style: FlutterFlowTheme.of(
                                                                               context)
                                                                           .titleMedium

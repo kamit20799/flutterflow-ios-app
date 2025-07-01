@@ -1,9 +1,11 @@
 import '/backend/api_requests/api_calls.dart';
 import '/components/nav_bar_widget.dart';
+import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
@@ -32,9 +34,6 @@ class _MyOrdersWidgetState extends State<MyOrdersWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => MyOrdersModel());
-
-    _model.textController ??= TextEditingController();
-    _model.textFieldFocusNode ??= FocusNode();
   }
 
   @override
@@ -213,168 +212,117 @@ class _MyOrdersWidgetState extends State<MyOrdersWidget> {
                             ),
                             child: Padding(
                               padding: EdgeInsets.all(12.0),
-                              child: Row(
+                              child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  Expanded(
-                                    child: TextFormField(
-                                      controller: _model.textController,
-                                      focusNode: _model.textFieldFocusNode,
-                                      autofocus: false,
-                                      obscureText: false,
-                                      decoration: InputDecoration(
-                                        hintText: 'Search your order here',
-                                        hintStyle: FlutterFlowTheme.of(context)
-                                            .bodySmall
-                                            .override(
-                                              font: GoogleFonts.plusJakartaSans(
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 5.0, 0.0, 0.0),
+                                    child: FutureBuilder<ApiCallResponse>(
+                                      future: GetAllVendorsAPICall.call(),
+                                      builder: (context, snapshot) {
+                                        // Customize what your widget looks like when it's loading.
+                                        if (!snapshot.hasData) {
+                                          return Center(
+                                            child: Padding(
+                                              padding: EdgeInsets.all(5.0),
+                                              child: SizedBox(
+                                                width: 30.0,
+                                                height: 30.0,
+                                                child: SpinKitFadingFour(
+                                                  color: Color(0xFF425EF8),
+                                                  size: 30.0,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                        final dropDownGetAllVendorsAPIResponse =
+                                            snapshot.data!;
+
+                                        return FlutterFlowDropDown<int>(
+                                          controller:
+                                              _model.dropDownValueController ??=
+                                                  FormFieldController<int>(
+                                            _model.dropDownValue ??=
+                                                FFAppState().vendorStoreId,
+                                          ),
+                                          options: List<int>.from(
+                                              GetAllVendorsAPICall
+                                                  .vendorStoreId(
+                                            dropDownGetAllVendorsAPIResponse
+                                                .jsonBody,
+                                          )!),
+                                          optionLabels:
+                                              GetAllVendorsAPICall.vendorName(
+                                            dropDownGetAllVendorsAPIResponse
+                                                .jsonBody,
+                                          )!,
+                                          onChanged: (val) async {
+                                            safeSetState(() =>
+                                                _model.dropDownValue = val);
+                                            FFAppState().vendorStoreId =
+                                                _model.dropDownValue!;
+                                            safeSetState(() {});
+
+                                            context.pushNamed(
+                                                MyOrdersWidget.routeName);
+                                          },
+                                          textStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .bodyMedium
+                                              .override(
+                                                font:
+                                                    GoogleFonts.plusJakartaSans(
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                                letterSpacing: 0.0,
                                                 fontWeight:
                                                     FlutterFlowTheme.of(context)
-                                                        .bodySmall
+                                                        .bodyMedium
                                                         .fontWeight,
                                                 fontStyle:
                                                     FlutterFlowTheme.of(context)
-                                                        .bodySmall
+                                                        .bodyMedium
                                                         .fontStyle,
                                               ),
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondaryText,
-                                              letterSpacing: 0.0,
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodySmall
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodySmall
-                                                      .fontStyle,
-                                            ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          hintText: 'Select Your Distributor',
+                                          icon: Icon(
+                                            Icons.keyboard_arrow_down_rounded,
                                             color: FlutterFlowTheme.of(context)
-                                                .alternate,
-                                            width: 1.0,
+                                                .secondaryText,
+                                            size: 24.0,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(30.0),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 1.0,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(30.0),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 1.0,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(30.0),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0x00000000),
-                                            width: 1.0,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(30.0),
-                                        ),
-                                        filled: true,
-                                        fillColor: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
-                                        prefixIcon: Icon(
-                                          Icons.search,
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryText,
-                                          size: 20.0,
-                                        ),
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.plusJakartaSans(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                      validator: _model.textControllerValidator
-                                          .asValidator(context),
+                                          fillColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .secondaryBackground,
+                                          elevation: 2.0,
+                                          borderColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .secondaryText,
+                                          borderWidth: 1.0,
+                                          borderRadius: 8.0,
+                                          margin:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  12.0, 0.0, 12.0, 0.0),
+                                          hidesUnderline: true,
+                                          isOverButton: false,
+                                          isSearchable: false,
+                                          isMultiSelect: false,
+                                        );
+                                      },
                                     ),
                                   ),
-                                  FFButtonWidget(
-                                    onPressed: () {
-                                      print('Button pressed ...');
-                                    },
-                                    text: 'Filters',
-                                    icon: Icon(
-                                      Icons.filter_list,
-                                      size: 20.0,
-                                    ),
-                                    options: FFButtonOptions(
-                                      height: 50.0,
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          12.0, 0.0, 12.0, 0.0),
-                                      iconPadding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      iconColor: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.plusJakartaSans(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                      elevation: 0.0,
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context)
-                                            .alternate,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(30.0),
-                                    ),
-                                  ),
-                                ].divide(SizedBox(width: 8.0)),
+                                ],
                               ),
                             ),
                           ),
@@ -395,6 +343,7 @@ class _MyOrdersWidgetState extends State<MyOrdersWidget> {
                                     child: FutureBuilder<ApiCallResponse>(
                                       future: GetOrdersAPICall.call(
                                         authToken: FFAppState().token,
+                                        storeId: FFAppState().vendorStoreId,
                                       ),
                                       builder: (context, snapshot) {
                                         // Customize what your widget looks like when it's loading.
@@ -668,7 +617,10 @@ class _MyOrdersWidgetState extends State<MyOrdersWidget> {
                                                                             0.0,
                                                                             0.0),
                                                                     child: Text(
-                                                                      '1 items',
+                                                                      getJsonField(
+                                                                        eachProductitemItem,
+                                                                        r'''$.quantity''',
+                                                                      ).toString(),
                                                                       style: FlutterFlowTheme.of(
                                                                               context)
                                                                           .bodyMedium
@@ -847,7 +799,10 @@ class _MyOrdersWidgetState extends State<MyOrdersWidget> {
                                                                         decoration:
                                                                             BoxDecoration(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).success,
+                                                                              functions.changeBackgroundDynamically(getJsonField(
+                                                                            eachProductitemItem,
+                                                                            r'''$.status.value''',
+                                                                          )),
                                                                           borderRadius:
                                                                               BorderRadius.circular(20.0),
                                                                         ),
@@ -923,7 +878,10 @@ class _MyOrdersWidgetState extends State<MyOrdersWidget> {
                                                                         decoration:
                                                                             BoxDecoration(
                                                                           color:
-                                                                              FlutterFlowTheme.of(context).success,
+                                                                              functions.changeBackgroundDynamically(getJsonField(
+                                                                            eachProductitemItem,
+                                                                            r'''$.payment_status.value''',
+                                                                          )),
                                                                           borderRadius:
                                                                               BorderRadius.circular(20.0),
                                                                         ),

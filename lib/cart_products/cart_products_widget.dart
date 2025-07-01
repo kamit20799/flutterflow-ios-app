@@ -591,10 +591,16 @@ class _CartProductsWidgetState extends State<CartProductsWidget> {
                                                                       4.0,
                                                                       8.0),
                                                           child: Text(
-                                                            getJsonField(
-                                                              cartItemsDataItem,
-                                                              r'''$.subtotal''',
-                                                            ).toString(),
+                                                            valueOrDefault<
+                                                                String>(
+                                                              functions
+                                                                  .roundTotalAmount(
+                                                                      getJsonField(
+                                                                cartItemsDataItem,
+                                                                r'''$.subtotal''',
+                                                              )),
+                                                              '₹5000',
+                                                            ),
                                                             textAlign:
                                                                 TextAlign.end,
                                                             style: FlutterFlowTheme

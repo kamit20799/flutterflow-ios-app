@@ -247,20 +247,24 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget>
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 16.0),
                                 child: Hero(
-                                  tag: getJsonField(
-                                    productDetailProductDetailAPIResponse
-                                        .jsonBody,
-                                    r'''$.data.image_url''',
-                                  ).toString(),
-                                  transitionOnUserGestures: true,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(0.0),
-                                    child: Image.network(
+                                  tag: functions.productImage(
+                                      FFAppState().productVariationImage,
                                       getJsonField(
                                         productDetailProductDetailAPIResponse
                                             .jsonBody,
                                         r'''$.data.image_url''',
-                                      ).toString(),
+                                      ).toString()),
+                                  transitionOnUserGestures: true,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(0.0),
+                                    child: Image.network(
+                                      functions.productImage(
+                                          FFAppState().productVariationImage,
+                                          getJsonField(
+                                            productDetailProductDetailAPIResponse
+                                                .jsonBody,
+                                            r'''$.data.image_url''',
+                                          ).toString()),
                                       width: double.infinity,
                                       height: 280.0,
                                       fit: BoxFit.fill,
@@ -346,11 +350,17 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget>
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        getJsonField(
-                                          productDetailProductDetailAPIResponse
-                                              .jsonBody,
-                                          r'''$.data.price_formatted''',
-                                        ).toString(),
+                                        valueOrDefault<String>(
+                                          functions.productPrice(
+                                              FFAppState()
+                                                  .productVariationPrice,
+                                              getJsonField(
+                                                productDetailProductDetailAPIResponse
+                                                    .jsonBody,
+                                                r'''$.data.price_formatted''',
+                                              ).toString()),
+                                          '100',
+                                        ),
                                         textAlign: TextAlign.start,
                                         style: FlutterFlowTheme.of(context)
                                             .headlineSmall
@@ -533,8 +543,6 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget>
                                                       attributeItemItem,
                                                       r'''$.id''',
                                                     ),
-                                                    selectedAttributes: _model
-                                                        .selectedAttributes,
                                                   ),
                                                 );
                                               }),
@@ -754,6 +762,818 @@ class _ProductDetailWidgetState extends State<ProductDetailWidget>
                                                       .error,
                                             ),
                                           );
+                                        }
+                                      }
+
+                                      safeSetState(() {});
+                                    },
+                                    text: 'Add to Cart',
+                                    options: FFButtonOptions(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          1.0,
+                                      height: 50.0,
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 0.0, 0.0, 0.0),
+                                      iconPadding:
+                                          EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                      color: Color(0xFF425EF8),
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .override(
+                                            fontFamily: 'Onest',
+                                            color: Colors.white,
+                                            fontSize: 18.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                      elevation: 2.0,
+                                      borderSide: BorderSide(
+                                        color: Colors.transparent,
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(28.0),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: FFButtonWidget(
+                                    onPressed: () async {
+                                      if (functions.areAllKeysPresent(
+                                              (getJsonField(
+                                                productDetailProductDetailAPIResponse
+                                                    .jsonBody,
+                                                r'''$.attribute_sets[:].title''',
+                                                true,
+                                              ) as List)
+                                                  .map<String>(
+                                                      (s) => s.toString())
+                                                  .toList(),
+                                              FFAppState()
+                                                  .selectedAttributesKeys) ==
+                                          'true') {
+                                        var confirmDialogResponse =
+                                            await showDialog<bool>(
+                                                  context: context,
+                                                  builder:
+                                                      (alertDialogContext) {
+                                                    return AlertDialog(
+                                                      title: Text('True'),
+                                                      content: Text(
+                                                          'All variations have been selected.'),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  alertDialogContext,
+                                                                  false),
+                                                          child: Text('Cancel'),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  alertDialogContext,
+                                                                  true),
+                                                          child:
+                                                              Text('Confirm'),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                ) ??
+                                                false;
+                                        _model.getProductidResponse =
+                                            await GetProductIdCall.call(
+                                          productId: widget.id,
+                                          attributesList: FFAppState()
+                                              .selectedAttributesValues,
+                                        );
+
+                                        if ((_model.getProductidResponse
+                                                ?.succeeded ??
+                                            true)) {
+                                          FFAppState().productVariationId =
+                                              getJsonField(
+                                            (_model.getProductidResponse
+                                                    ?.jsonBody ??
+                                                ''),
+                                            r'''$.variation_id''',
+                                          );
+                                          FFAppState().productVariationPrice =
+                                              getJsonField(
+                                            (_model.getProductidResponse
+                                                    ?.jsonBody ??
+                                                ''),
+                                            r'''$.product_price''',
+                                          ).toString();
+                                          safeSetState(() {});
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Product Not Found',
+                                                style: TextStyle(
+                                                  fontFamily: 'Onest',
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryBackground,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                              duration:
+                                                  Duration(milliseconds: 4000),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                            ),
+                                          );
+                                        }
+                                      } else {
+                                        var confirmDialogResponse =
+                                            await showDialog<bool>(
+                                                  context: context,
+                                                  builder:
+                                                      (alertDialogContext) {
+                                                    return AlertDialog(
+                                                      title: Text('False'),
+                                                      content: Text(
+                                                          'First select all product variations.'),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  alertDialogContext,
+                                                                  false),
+                                                          child: Text('Cancel'),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  alertDialogContext,
+                                                                  true),
+                                                          child:
+                                                              Text('Confirm'),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                ) ??
+                                                false;
+                                      }
+
+                                      safeSetState(() {});
+                                    },
+                                    text: 'Add to Cart',
+                                    options: FFButtonOptions(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          1.0,
+                                      height: 50.0,
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 0.0, 0.0, 0.0),
+                                      iconPadding:
+                                          EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                      color: Color(0xFF425EF8),
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .override(
+                                            fontFamily: 'Onest',
+                                            color: Colors.white,
+                                            fontSize: 18.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                      elevation: 2.0,
+                                      borderSide: BorderSide(
+                                        color: Colors.transparent,
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(28.0),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                16.0, 20.0, 16.0, 10.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: FFButtonWidget(
+                                    onPressed: () async {
+                                      if (functions
+                                              .checkArrayLength(getJsonField(
+                                            productDetailProductDetailAPIResponse
+                                                .jsonBody,
+                                            r'''$.attribute_sets''',
+                                          )) ==
+                                          'Array is empty') {
+                                        if (FFAppState().cartId == '') {
+                                          _model.simpleAddtoCartResponse =
+                                              await AddToCartCall.call(
+                                            productId: widget.id,
+                                            quantity:
+                                                _model.countControllerValue,
+                                          );
+
+                                          if ((_model.simpleAddtoCartResponse
+                                                  ?.succeeded ??
+                                              true)) {
+                                            _model.simpleGetCartitemsResponse =
+                                                await GetCartItemsAPICall.call(
+                                              id: getJsonField(
+                                                (_model.simpleAddtoCartResponse
+                                                        ?.jsonBody ??
+                                                    ''),
+                                                r'''$.id''',
+                                              ).toString(),
+                                            );
+
+                                            if ((_model
+                                                    .simpleGetCartitemsResponse
+                                                    ?.succeeded ??
+                                                true)) {
+                                              FFAppState().cartId =
+                                                  getJsonField(
+                                                (_model.simpleGetCartitemsResponse
+                                                        ?.jsonBody ??
+                                                    ''),
+                                                r'''$.id''',
+                                              ).toString();
+                                              FFAppState().cartCount =
+                                                  getJsonField(
+                                                (_model.simpleGetCartitemsResponse
+                                                        ?.jsonBody ??
+                                                    ''),
+                                                r'''$.count''',
+                                              );
+                                              safeSetState(() {});
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'Product added to cart sucessfully..!',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Onest',
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      fontSize: 16.0,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  duration: Duration(
+                                                      milliseconds: 4000),
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .success,
+                                                ),
+                                              );
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'Something went wrong, try again',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Onest',
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      fontSize: 16.0,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  duration: Duration(
+                                                      milliseconds: 4000),
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .error,
+                                                ),
+                                              );
+                                            }
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'Product not added to cart..!!',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Onest',
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryBackground,
+                                                    fontSize: 16.0,
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                                duration: Duration(
+                                                    milliseconds: 4000),
+                                                backgroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .error,
+                                              ),
+                                            );
+                                          }
+                                        } else {
+                                          _model.simpleUpdateCartResponse =
+                                              await UpdateCartAPICall.call(
+                                            productId: widget.id,
+                                            quantity:
+                                                _model.countControllerValue,
+                                            cartId: FFAppState().cartId,
+                                          );
+
+                                          if ((_model.simpleUpdateCartResponse
+                                                  ?.succeeded ??
+                                              true)) {
+                                            _model.simpleUpdateGetCartitemsResponse =
+                                                await GetCartItemsAPICall.call(
+                                              id: getJsonField(
+                                                (_model.simpleUpdateCartResponse
+                                                        ?.jsonBody ??
+                                                    ''),
+                                                r'''$.id''',
+                                              ).toString(),
+                                            );
+
+                                            if ((_model
+                                                    .simpleUpdateGetCartitemsResponse
+                                                    ?.succeeded ??
+                                                true)) {
+                                              FFAppState().cartCount =
+                                                  getJsonField(
+                                                (_model.simpleUpdateGetCartitemsResponse
+                                                        ?.jsonBody ??
+                                                    ''),
+                                                r'''$.count''',
+                                              );
+                                              safeSetState(() {});
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'Product updated to cart sucessfully..!',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Onest',
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      fontSize: 16.0,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  duration: Duration(
+                                                      milliseconds: 4000),
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .success,
+                                                ),
+                                              );
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'Product not to cart, try again.',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Onest',
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryText,
+                                                      fontSize: 16.0,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  duration: Duration(
+                                                      milliseconds: 4000),
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .error,
+                                                ),
+                                              );
+                                            }
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'Product not updated..!',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Onest',
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryBackground,
+                                                    fontSize: 16.0,
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                                duration: Duration(
+                                                    milliseconds: 4000),
+                                                backgroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .error,
+                                              ),
+                                            );
+                                          }
+                                        }
+                                      } else {
+                                        if (functions.checkArrayLength(
+                                                FFAppState()
+                                                    .selectedAttributesKeys) ==
+                                            'Array is empty') {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Product variations are required.',
+                                                style: TextStyle(
+                                                  fontFamily: 'Onest',
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryBackground,
+                                                  fontSize: 16.0,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                              duration:
+                                                  Duration(milliseconds: 4000),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                            ),
+                                          );
+                                        } else {
+                                          if (functions.areAllKeysPresent(
+                                                  (getJsonField(
+                                                    productDetailProductDetailAPIResponse
+                                                        .jsonBody,
+                                                    r'''$.attribute_sets[:].title''',
+                                                    true,
+                                                  ) as List)
+                                                      .map<String>(
+                                                          (s) => s.toString())
+                                                      .toList(),
+                                                  FFAppState()
+                                                      .selectedAttributesKeys) ==
+                                              'true') {
+                                            _model.getProductIdResponse =
+                                                await GetProductIdCall.call(
+                                              productId: widget.id,
+                                              attributesList: FFAppState()
+                                                  .selectedAttributesValues,
+                                            );
+
+                                            if ((_model.getProductIdResponse
+                                                    ?.succeeded ??
+                                                true)) {
+                                              FFAppState().productVariationId =
+                                                  getJsonField(
+                                                (_model.getProductIdResponse
+                                                        ?.jsonBody ??
+                                                    ''),
+                                                r'''$.variation_id''',
+                                              );
+                                              FFAppState()
+                                                      .productVariationPrice =
+                                                  getJsonField(
+                                                (_model.getProductIdResponse
+                                                        ?.jsonBody ??
+                                                    ''),
+                                                r'''$.product_price''',
+                                              ).toString();
+                                              FFAppState()
+                                                      .productVariationImage =
+                                                  getJsonField(
+                                                (_model.getProductIdResponse
+                                                        ?.jsonBody ??
+                                                    ''),
+                                                r'''$.product_image''',
+                                              ).toString();
+                                              safeSetState(() {});
+                                              if (FFAppState().cartId == '') {
+                                                _model.addTocartResponse =
+                                                    await AddToCartCall.call(
+                                                  productId: FFAppState()
+                                                      .productVariationId,
+                                                  quantity: _model
+                                                      .countControllerValue,
+                                                );
+
+                                                if ((_model.addTocartResponse
+                                                        ?.succeeded ??
+                                                    true)) {
+                                                  _model.getCartItemResponse =
+                                                      await GetCartItemsAPICall
+                                                          .call(
+                                                    id: getJsonField(
+                                                      (_model.getCartItemResponse
+                                                              ?.jsonBody ??
+                                                          ''),
+                                                      r'''$.id''',
+                                                    ).toString(),
+                                                  );
+
+                                                  if ((_model
+                                                          .getCartItemResponse
+                                                          ?.succeeded ??
+                                                      true)) {
+                                                    FFAppState().cartId =
+                                                        getJsonField(
+                                                      (_model.addTocartResponse
+                                                              ?.jsonBody ??
+                                                          ''),
+                                                      r'''$.id''',
+                                                    ).toString();
+                                                    FFAppState().cartCount =
+                                                        getJsonField(
+                                                      (_model.addTocartResponse
+                                                              ?.jsonBody ??
+                                                          ''),
+                                                      r'''$.count''',
+                                                    );
+                                                    FFAppState()
+                                                        .productVariationId = 0;
+                                                    FFAppState()
+                                                        .productVariationPrice = '';
+                                                    FFAppState()
+                                                        .productVariationImage = '';
+                                                    FFAppState()
+                                                            .selectedProductAttributes =
+                                                        jsonDecode('{}');
+                                                    FFAppState()
+                                                            .selectedAttributesKeys =
+                                                        jsonDecode('[]');
+                                                    FFAppState()
+                                                            .selectedAttributesValues =
+                                                        jsonDecode('[]');
+                                                    safeSetState(() {});
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                          'Product added to cart sucessfully..!',
+                                                          style: TextStyle(
+                                                            fontFamily: 'Onest',
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryBackground,
+                                                            fontSize: 16.0,
+                                                          ),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                        duration: Duration(
+                                                            milliseconds: 4000),
+                                                        backgroundColor:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .success,
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                          'Something went wrong, try again',
+                                                          style: TextStyle(
+                                                            fontFamily: 'Onest',
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryBackground,
+                                                            fontSize: 16.0,
+                                                          ),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                        duration: Duration(
+                                                            milliseconds: 4000),
+                                                        backgroundColor:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .error,
+                                                      ),
+                                                    );
+                                                  }
+                                                } else {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        'Product not added to cart..!!',
+                                                        style: TextStyle(
+                                                          fontFamily: 'Onest',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .secondaryBackground,
+                                                          fontSize: 16.0,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                      duration: Duration(
+                                                          milliseconds: 4000),
+                                                      backgroundColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .error,
+                                                    ),
+                                                  );
+                                                }
+                                              } else {
+                                                _model.cartUpdateResponse =
+                                                    await UpdateCartAPICall
+                                                        .call(
+                                                  productId: FFAppState()
+                                                      .productVariationId,
+                                                  quantity: _model
+                                                      .countControllerValue,
+                                                  cartId: FFAppState().cartId,
+                                                );
+
+                                                if ((_model.cartUpdateResponse
+                                                        ?.succeeded ??
+                                                    true)) {
+                                                  _model.apiResultkcGetCart =
+                                                      await GetCartItemsAPICall
+                                                          .call(
+                                                    id: getJsonField(
+                                                      (_model.cartUpdateResponse
+                                                              ?.jsonBody ??
+                                                          ''),
+                                                      r'''$.id''',
+                                                    ).toString(),
+                                                  );
+
+                                                  if ((_model.apiResultkcGetCart
+                                                          ?.succeeded ??
+                                                      true)) {
+                                                    FFAppState().cartCount =
+                                                        getJsonField(
+                                                      (_model.apiResultkcGetCart
+                                                              ?.jsonBody ??
+                                                          ''),
+                                                      r'''$.count''',
+                                                    );
+                                                    FFAppState()
+                                                        .productVariationId = 0;
+                                                    FFAppState()
+                                                        .productVariationPrice = '';
+                                                    FFAppState()
+                                                        .productVariationImage = '';
+                                                    FFAppState()
+                                                            .selectedProductAttributes =
+                                                        jsonDecode('{}');
+                                                    FFAppState()
+                                                            .selectedAttributesKeys =
+                                                        jsonDecode('[]');
+                                                    FFAppState()
+                                                            .selectedAttributesValues =
+                                                        jsonDecode('[]');
+                                                    safeSetState(() {});
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                          'Product updated to cart sucessfully..!',
+                                                          style: TextStyle(
+                                                            fontFamily: 'Onest',
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryBackground,
+                                                            fontSize: 16.0,
+                                                          ),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                        duration: Duration(
+                                                            milliseconds: 4000),
+                                                        backgroundColor:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .success,
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                          'Product not to cart, try again.',
+                                                          style: TextStyle(
+                                                            fontFamily: 'Onest',
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryBackground,
+                                                            fontSize: 16.0,
+                                                          ),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                        duration: Duration(
+                                                            milliseconds: 4000),
+                                                        backgroundColor:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .error,
+                                                      ),
+                                                    );
+                                                  }
+                                                } else {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        'Product not updated..!',
+                                                        style: TextStyle(
+                                                          fontFamily: 'Onest',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .secondaryBackground,
+                                                          fontSize: 16.0,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                      duration: Duration(
+                                                          milliseconds: 4000),
+                                                      backgroundColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .error,
+                                                    ),
+                                                  );
+                                                }
+                                              }
+                                            } else {
+                                              FFAppState().productVariationId =
+                                                  0;
+                                              FFAppState()
+                                                  .productVariationPrice = '';
+                                              FFAppState()
+                                                  .productVariationImage = '';
+                                              safeSetState(() {});
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'No matching variation found, select other one.',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Onest',
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      fontSize: 16.0,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  duration: Duration(
+                                                      milliseconds: 4000),
+                                                  backgroundColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .error,
+                                                ),
+                                              );
+                                            }
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'Select all product variations.',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Onest',
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryBackground,
+                                                    fontSize: 16.0,
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                                duration: Duration(
+                                                    milliseconds: 4000),
+                                                backgroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .error,
+                                              ),
+                                            );
+                                          }
                                         }
                                       }
 

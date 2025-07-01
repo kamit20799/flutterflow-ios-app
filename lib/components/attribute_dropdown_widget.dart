@@ -2,6 +2,7 @@ import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'attribute_dropdown_model.dart';
@@ -13,13 +14,11 @@ class AttributeDropdownWidget extends StatefulWidget {
     required this.label,
     this.options,
     required this.index,
-    this.selectedAttributes,
   });
 
   final String? label;
   final List<dynamic>? options;
   final int? index;
-  final List<dynamic>? selectedAttributes;
 
   @override
   State<AttributeDropdownWidget> createState() =>
@@ -83,8 +82,17 @@ class _AttributeDropdownWidgetState extends State<AttributeDropdownWidget> {
             options: widget.options!.map((e) => e.toString()).toList(),
             onChanged: (val) async {
               safeSetState(() => _model.dropDownValue = val);
-              _model.defaultDropdownValue = _model.dropDownValue;
-              safeSetState(() {});
+              await actions.updateAttributeSelection(
+                widget.label!,
+                _model.dropDownValue!,
+              );
+              await actions.getAttributeKey(
+                widget.label!,
+              );
+              await actions.storeAttributeValue(
+                widget.label!,
+                _model.dropDownValue!,
+              );
             },
             textStyle: FlutterFlowTheme.of(context).bodyMedium.override(
                   font: GoogleFonts.plusJakartaSans(
