@@ -40,6 +40,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       _model.apiResultzyj = await GetOrdersAPICall.call(
         authToken: FFAppState().token,
       );
+
+      _model.ledgerResponse = await LedgerReportCall.call(
+        authToken: FFAppState().token,
+      );
     });
   }
 
@@ -406,9 +410,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                               ),
                                                               Text(
                                                                 getJsonField(
-                                                                  homePageGetOrdersAPIResponse
-                                                                      .jsonBody,
-                                                                  r'''$.data[0].overall_paid''',
+                                                                  (_model.ledgerResponse
+                                                                          ?.jsonBody ??
+                                                                      ''),
+                                                                  r'''$.overall_primary''',
                                                                 ).toString(),
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
@@ -420,7 +425,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                               context)
                                                                           .primaryText,
                                                                       fontSize:
-                                                                          20.0,
+                                                                          16.0,
                                                                       letterSpacing:
                                                                           0.0,
                                                                       fontWeight:
@@ -531,9 +536,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                             ),
                                                             Text(
                                                               getJsonField(
-                                                                homePageGetOrdersAPIResponse
-                                                                    .jsonBody,
-                                                                r'''$.data[0].total_outstanding''',
+                                                                (_model.ledgerResponse
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                                r'''$.outstanding''',
                                                               ).toString(),
                                                               style: FlutterFlowTheme
                                                                       .of(context)
@@ -545,7 +551,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                             context)
                                                                         .primaryText,
                                                                     fontSize:
-                                                                        20.0,
+                                                                        16.0,
                                                                     letterSpacing:
                                                                         0.0,
                                                                     fontWeight:

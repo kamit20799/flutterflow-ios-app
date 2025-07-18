@@ -11,6 +11,8 @@ class HomePageModel extends FlutterFlowModel<HomePageWidget> {
 
   // Stores action output result for [Backend Call - API (Get Orders API)] action in HomePage widget.
   ApiCallResponse? apiResultzyj;
+  // Stores action output result for [Backend Call - API (Ledger Report)] action in HomePage widget.
+  ApiCallResponse? ledgerResponse;
   // State field(s) for DropDown widget.
   String? dropDownValue;
   FormFieldController<String>? dropDownValueController;

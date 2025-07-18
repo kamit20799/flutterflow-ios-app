@@ -198,7 +198,9 @@ class _NewOrdersWidgetState extends State<NewOrdersWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 5.0, 0.0, 0.0),
                                       child: FutureBuilder<ApiCallResponse>(
-                                        future: GetAllVendorsAPICall.call(),
+                                        future: GetAllVendorsAPICall.call(
+                                          authToken: FFAppState().token,
+                                        ),
                                         builder: (context, snapshot) {
                                           // Customize what your widget looks like when it's loading.
                                           if (!snapshot.hasData) {

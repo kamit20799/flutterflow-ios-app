@@ -912,12 +912,16 @@ class OrderDetailAPICall {
 }
 
 class GetAllVendorsAPICall {
-  static Future<ApiCallResponse> call() async {
+  static Future<ApiCallResponse> call({
+    String? authToken = '',
+  }) async {
     return ApiManager.instance.makeApiCall(
       callName: 'Get all vendors API',
       apiUrl: 'https://retailersconnect.com/api/v1/ecommerce/vendors',
       callType: ApiCallType.GET,
-      headers: {},
+      headers: {
+        'Authorization': 'Bearer ${authToken}',
+      },
       params: {},
       returnBody: true,
       encodeBodyUtf8: false,
@@ -1037,6 +1041,21 @@ class LedgerReportCall {
         r'''$.data''',
         true,
       ) as List?;
+  static String? overallprimary(dynamic response) =>
+      castToType<String>(getJsonField(
+        response,
+        r'''$.overall_primary''',
+      ));
+  static String? outstanding(dynamic response) =>
+      castToType<String>(getJsonField(
+        response,
+        r'''$.outstanding''',
+      ));
+  static String? recptamount(dynamic response) =>
+      castToType<String>(getJsonField(
+        response,
+        r'''$.recpt_amount''',
+      ));
 }
 
 class ApiPagingParams {

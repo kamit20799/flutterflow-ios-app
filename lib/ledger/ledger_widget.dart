@@ -224,7 +224,11 @@ class _LedgerWidgetState extends State<LedgerWidget> {
                                                     .fromSTEB(
                                                         0.0, 8.0, 0.0, 0.0),
                                                 child: Text(
-                                                  '₹2,96,441.00',
+                                                  getJsonField(
+                                                    ledgerLedgerReportResponse
+                                                        .jsonBody,
+                                                    r'''$.overall_primary''',
+                                                  ).toString(),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .titleLarge
@@ -347,7 +351,11 @@ class _LedgerWidgetState extends State<LedgerWidget> {
                                                     .fromSTEB(
                                                         0.0, 8.0, 0.0, 0.0),
                                                 child: Text(
-                                                  '₹3,68,340.00',
+                                                  getJsonField(
+                                                    ledgerLedgerReportResponse
+                                                        .jsonBody,
+                                                    r'''$.outstanding''',
+                                                  ).toString(),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .titleLarge
@@ -651,7 +659,7 @@ class _LedgerWidgetState extends State<LedgerWidget> {
                                                 children: [
                                                   Expanded(
                                                     child: Text(
-                                                      'Date',
+                                                      'Bill Date',
                                                       style: FlutterFlowTheme
                                                               .of(context)
                                                           .bodyMedium
@@ -681,7 +689,7 @@ class _LedgerWidgetState extends State<LedgerWidget> {
                                                   ),
                                                   Expanded(
                                                     child: Text(
-                                                      'Price',
+                                                      'Bill Type',
                                                       style: FlutterFlowTheme
                                                               .of(context)
                                                           .bodyMedium
@@ -741,7 +749,7 @@ class _LedgerWidgetState extends State<LedgerWidget> {
                                                   ),
                                                   Expanded(
                                                     child: Text(
-                                                      'Party Name',
+                                                      'Amount',
                                                       style: FlutterFlowTheme
                                                               .of(context)
                                                           .bodyMedium
@@ -850,7 +858,7 @@ class _LedgerWidgetState extends State<LedgerWidget> {
                                                               child: Text(
                                                                 getJsonField(
                                                                   ledgerReportDataItem,
-                                                                  r'''$.price''',
+                                                                  r'''$.bill_type''',
                                                                 ).toString(),
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
@@ -921,7 +929,7 @@ class _LedgerWidgetState extends State<LedgerWidget> {
                                                               child: Text(
                                                                 getJsonField(
                                                                   ledgerReportDataItem,
-                                                                  r'''$.party_name''',
+                                                                  r'''$.amount''',
                                                                 ).toString(),
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
